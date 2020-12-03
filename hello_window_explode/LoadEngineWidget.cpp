@@ -17,8 +17,8 @@ LoadEngineWidget::LoadEngineWidget(QWidget *parent) : QOpenGLWidget(parent),
 
     format.setRenderableType(QSurfaceFormat::OpenGL);
     format.setProfile(QSurfaceFormat::CoreProfile);
-    //指定opengl版本为3.3
-    format.setVersion(3, 3);
+    //指定opengl版本为4.5
+    format.setVersion(4, 5);
     setFormat(format);
     setCursor(Qt::ArrowCursor);
 }
@@ -42,11 +42,13 @@ LoadEngineWidget::~LoadEngineWidget()
 void LoadEngineWidget::initializeGL()
 {
     //初始化OpenGL函数
-    initializeOpenGLFunctions();
+    this->initializeOpenGLFunctions();
 
     glEnable(GL_CULL_FACE);
+
     //设置全局变量
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
     //这里不指定父类，我们自己来管理这个类
     //program = new QOpenGLShaderProgram;
     //将文件内容编译为指定类型的着色器，并将其添加到着色器程序program
@@ -66,7 +68,8 @@ void LoadEngineWidget::initializeGL()
 
     QDir temDir("./objects/backpack.obj");
     QString filePath = temDir.absolutePath();
-    //模型网上自己找个，注意格式要符合assimp库支持的。
+
+    //背包模型，其格式是符合assimp库支持的。
     // pmodel = new Model(":/backpack.obj");
 
     pmodel = new Model(filePath);

@@ -6,13 +6,13 @@
 #include <QSharedPointer>
 #include <QOpenGLWidget>
 #include <QString>
-#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLFunctions_4_5_Core>
 #include <QElapsedTimer>
 class Model;
 class QOpenGLTexture;
 class QOpenGLShaderProgram;
 
-class LoadEngineWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
+class LoadEngineWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_5_Core
 {
     Q_OBJECT
 public:

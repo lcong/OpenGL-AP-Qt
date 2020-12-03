@@ -9,16 +9,14 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     GlWidget w;
-
     Assimp::Importer importer;
-
-
     glm::mat4 model = glm::mat4(1.0f);
-    LoadEngineWidget w2;
-    GlWidget w1;
 
-    w1.show();
+    LoadEngineWidget w2;
+
+//    GlWidget w1;
+
+//    w1.show();
     w2.show();
-//    w.show();
     return (a.exec());
 }
