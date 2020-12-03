@@ -1,0 +1,7 @@
+prefix=D:/pkgs/glm-0.9.8.0/install-mingw64
+includedir=${prefix}/include
+
+Name: GLM
+Description: OpenGL Mathematics
+Version: 0.9.8
+Cflags: -I${includedir}
