@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>9.2.geometry_shader.fs</file>
+        <file>9.2.geometry_shader.gs</file>
+        <file>9.2.geometry_shader.vs</file>
+        <file>triangle.frag</file>
+        <file>triangle.vert</file>
+        <file>colortriangle.frag</file>
+        <file>colortriangle.vert</file>
+        <file>textures.frag</file>
+        <file>textures.vert</file>
+        <file>basic_lighting.frag</file>
+        <file>basic_lighting.vert</file>
+        <file>lamp.frag</file>
+        <file>lamp.vert</file>
+        <file>lighting_maps.frag</file>
+        <file>lighting_maps.vert</file>
+        <file>model_loading.fs</file>
+        <file>model_loading.vs</file>		
+    </qresource>
+</RCC>
