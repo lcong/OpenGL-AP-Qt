@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>backpack.obj</file>
+    </qresource>
+</RCC>
