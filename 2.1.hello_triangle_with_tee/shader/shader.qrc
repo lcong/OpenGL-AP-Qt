@@ -1,23 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>triangle.frag</file>
-        <file>triangle.vert</file>
-        <file>colortriangle.frag</file>
-        <file>colortriangle.vert</file>
-        <file>textures.frag</file>
-        <file>textures.vert</file>
-        <file>basic_lighting.frag</file>
-        <file>basic_lighting.vert</file>
-        <file>lamp.frag</file>
-        <file>lamp.vert</file>
-        <file>lighting_maps.frag</file>
-        <file>lighting_maps.vert</file>
-        <file>9.1.geometry_shader.fs</file>
-        <file>9.1.geometry_shader.gs</file>
-        <file>9.1.geometry_shader.vs</file>
+
         <file>2.1.hellotriangle.vert</file>
         <file>2.1.hellotriangle.tcs</file>
         <file>2.1.hellotriangle.tes</file>
         <file>2.1.hellotriangle.frag</file>
+        <file>2.1.hellotriangle.gs</file>
     </qresource>
 </RCC>

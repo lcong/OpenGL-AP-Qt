@@ -4,6 +4,8 @@
 #include <QDateTime>
 #include "CoreFunctionWidget.h"
 
+
+
 CoreFunctionWidget::CoreFunctionWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
 }
@@ -24,9 +26,8 @@ void CoreFunctionWidget::initializeGL()
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
-    // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
     // Triangle
+
     float vertices[] = {
         // positions          // colors
         -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
@@ -35,24 +36,30 @@ void CoreFunctionWidget::initializeGL()
     };
     glEnable(GL_DEPTH_TEST);
 
+
     // first, configure the VAO (and VBO)
     glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
     glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
 
-    glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glPatchParameteri(GL_PATCH_VERTICES, 3);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//  glPatchParameteri(GL_PATCH_VERTICES, 3); //需要注释掉这句，才可以让GS生效；
+
+//  glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_PATCHES, 0, 3);
+//  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 
@@ -71,21 +78,10 @@ void CoreFunctionWidget::paintGL()
     glBindVertexArray(VAO);
     mShader.bind();
     glDrawArrays(GL_PATCHES, 0, 3);
+
+//    glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-
-const char *vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 FragColor;\n"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    "}\n\0";
 
 bool CoreFunctionWidget::createShader()
 {
@@ -96,11 +92,6 @@ bool CoreFunctionWidget::createShader()
         return (success);
     }
 
-    success = mShader.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/2.1.hellotriangle.frag");
-    if (!success) {
-        qDebug() << "shaderProgram addShaderFromSourceFile failed!" << mShader.log();
-        return (success);
-    }
 
     success = mShader.addShaderFromSourceFile(QOpenGLShader::TessellationControl, ":/2.1.hellotriangle.tcs");
     if (!success) {
@@ -114,6 +105,18 @@ bool CoreFunctionWidget::createShader()
         return (success);
     }
 
+
+    success = mShader.addShaderFromSourceFile(QOpenGLShader::Geometry, ":/2.1.hellotriangle.gs");
+    if (!success) {
+        qDebug() << "shaderProgram addShaderFromSourceFile failed!" << mShader.log();
+        return (success);
+    }
+
+    success = mShader.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/2.1.hellotriangle.frag");
+    if (!success) {
+        qDebug() << "shaderProgram addShaderFromSourceFile failed!" << mShader.log();
+        return (success);
+    }
 
     success = mShader.link();
     if (!success) {
