@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>triangle.frag</file>
-        <file>triangle.vert</file>
+        <file>model_loading.fs</file>
+        <file>model_loading.vs</file>
     </qresource>
 </RCC>

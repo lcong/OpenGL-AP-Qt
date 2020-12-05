@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    GlWidget.cpp \
     LoadEngineWidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -24,7 +23,6 @@ SOURCES += \
     model.cpp
 
 HEADERS += \
-    GlWidget.h \
     LoadEngineWidget.h \
     mainwindow.h \
     mesh.h \
@@ -46,31 +44,15 @@ RESOURCES += \
     shader/shader.qrc \
     objects/objects.qrc
 
-DISTFILES += \
-    image/awesomeface.png \
-    image/container.jpg \
-    image/container2.png \
-    image/container2_specular.png \
-    image/wall.jpg \
-    shader/basic_lighting.frag \
-    shader/basic_lighting.vert \
-    shader/colortriangle.frag \
-    shader/colortriangle.vert \
-    shader/lamp.frag \
-    shader/lamp.vert \
-    shader/lighting_maps.frag \
-    shader/lighting_maps.vert \
-    shader/model_loading.fs \
-    shader/model_loading.vs \
-    shader/textures.frag \
-    shader/textures.vert \
-    shader/triangle.frag \
-    shader/triangle.vert
 
+win32: LIBS += -L$$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/lib \
+    -LD:/OpenGL-Qt-WS/Qt5.15.2/thirdparty/assimp/lib \
+    -llibassimp.dll
 
+INCLUDEPATH += $$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/include \
+    D:/OpenGL-Qt-WS/Qt5.15.2/thirdparty/assimp/include
 
+DEPENDPATH += $$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/include \
+    D:/OpenGL-Qt-WS/Qt5.15.2/thirdparty/assimp/include
 
-win32: LIBS += -L$$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/lib/ -llibassimp.dll
-
-INCLUDEPATH += $$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/include
-DEPENDPATH += $$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/include
+D:/OpenGL-Qt-WS/Qt5.15.2/thirdparty/assimp

@@ -1,7 +1,5 @@
-﻿#include "GlWidget.h"
-#include <QApplication>
+﻿#include <QApplication>
 #include <assimp/Importer.hpp>
-
 #include "LoadEngineWidget.h"
 
 int main(int argc, char *argv[])
@@ -10,11 +8,8 @@ int main(int argc, char *argv[])
 
 //    Assimp::Importer importer;
 
-    GlWidget w1;
-    LoadEngineWidget w2;
+    LoadEngineWidget w;
 
-    w1.show();
-    w2.show();
-//    w.show();
+    w.show();
     return (a.exec());
 }
