@@ -1,4 +1,4 @@
-   #version 330 core
+#version 330 core
 
 layout(points) in ;
 layout(triangle_strip, max_vertices = 5) out; // 注意输出类型
@@ -14,6 +14,7 @@ out vec3 fcolor;
 void makeHouse(vec4 position)
 {
     fcolor = gs_in[0].vertColor;
+
     gl_PointSize = gl_in[0].gl_PointSize;
     gl_Position = position + vec4(-0.2f, -0.2f, 0.0f, 0.0f);  // 左下角
     EmitVertex();
