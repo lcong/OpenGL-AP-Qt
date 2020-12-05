@@ -117,7 +117,7 @@ Mesh *Model::processMesh(aiMesh *pmesh, const aiScene *pscene)
                 vec.setX(pmesh->mTextureCoords[0][i].x);
                 vec.setY(pmesh->mTextureCoords[0][i].y);
                 vertex.TexCoords = vec;
-            }else  {
+            }else {
                 vertex.TexCoords = QVector2D(0.0f, 0.0f);
             }
 
@@ -253,23 +253,22 @@ Mesh *Model::initMesh(const aiScene *pscene, const aiMesh *pmesh)
                 vec.setX(pmesh->mTextureCoords[0][i].x);
                 vec.setY(pmesh->mTextureCoords[0][i].y);
                 vertex.TexCoords = vec;
-            }else  {
+            }else {
                 vertex.TexCoords = QVector2D(0.0f, 0.0f);
             }
 
-            ////UV向量是否存在？
-            //if (pmesh->HasTangentsAndBitangents())
-            //{
-            //	// u向量
-            //	vector.setX(mesh->mTangents[i].x);
-            //	vector.setY(mesh->mTangents[i].y);
-            //	vector.setZ(mesh->mTangents[i].z);
-            //	vertex.Tangent = vector;
-            //	// v向量
-            //	vector.setX(mesh->mBitangents[i].x);
-            //	vector.setY(mesh->mBitangents[i].y);
-            //	vector.setZ(mesh->mBitangents[i].z);
-            //}
+            //UV向量是否存在？
+            if (pmesh->HasTangentsAndBitangents()) {
+                // u向量
+                vector.setX(pmesh->mTangents[i].x);
+                vector.setY(pmesh->mTangents[i].y);
+                vector.setZ(pmesh->mTangents[i].z);
+                vertex.Tangent = vector;
+                // v向量
+                vector.setX(pmesh->mBitangents[i].x);
+                vector.setY(pmesh->mBitangents[i].y);
+                vector.setZ(pmesh->mBitangents[i].z);
+            }
             vertices.push_back(vertex);
         }
     }

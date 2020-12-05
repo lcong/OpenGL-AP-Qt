@@ -45,10 +45,10 @@ void LoadEngineWidget::initializeGL()
     initializeOpenGLFunctions();
 
     glEnable(GL_CULL_FACE);
+
     //设置全局变量
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    //这里不指定父类，我们自己来管理这个类
-    //program = new QOpenGLShaderProgram;
+
     //将文件内容编译为指定类型的着色器，并将其添加到着色器程序program
     if (!program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/model_loading.vs")) {
         //如果执行不成功，打印错误信息
@@ -64,8 +64,10 @@ void LoadEngineWidget::initializeGL()
         qDebug() << "link error" << program->log();
     }
 
+
     QDir temDir("./objects/backpack.obj");
     QString filePath = temDir.absolutePath();
+
     //模型网上自己找个，注意格式要符合assimp库支持的。
     // pmodel = new Model(":/backpack.obj");
 
@@ -107,10 +109,8 @@ void LoadEngineWidget::paintGL()
     //清理屏幕
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
     QMatrix4x4 model;
-    //model.scale(0.005f, 0.005f, 0.005f);
-    //model.scale(0.010f, 0.010f, 0.010f);
+
     model.scale(0.3f, 0.3f, 0.3f);
-    //model.rotate((float)time.elapsed() / 10, QVector3D(0.5f, 1.0f, 0.0f));
     model.rotate((float)time.elapsed() / 20, QVector3D(0.0f, 0.5f, 1.0f));
     if (!program->bind()) {
         qDebug() << "bind error" << program->log();

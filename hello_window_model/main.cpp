@@ -7,12 +7,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    GlWidget w;
 
 //    Assimp::Importer importer;
 
-    LoadEngineWidget w2;
     GlWidget w1;
+    LoadEngineWidget w2;
 
     w1.show();
     w2.show();

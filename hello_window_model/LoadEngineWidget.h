@@ -27,7 +27,7 @@ private:
     //着色器程序
     QOpenGLShaderProgram *program;
     Model *pmodel;
-    //时间
+    //定时器
     QElapsedTimer time;
 };
 

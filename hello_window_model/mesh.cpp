@@ -1,6 +1,7 @@
 #include "mesh.h"
 #include <QString>
 #include <QOpenGLShaderProgram>
+
 Mesh::Mesh(const std::vector<Vertex>& vertice, const std::vector<GLuint>& indice,
     const std::vector<Texture>& texture) :
     vertices(vertice),
@@ -47,11 +48,11 @@ void Mesh::setupMesh(QOpenGLShaderProgram *program)
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, TexCoords));
     // u向量
-    //glEnableVertexAttribArray(3);
-    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Tangent));
-    // v向量
-    //glEnableVertexAttribArray(4);
-    //glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Bitangent));
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Tangent));
+//     v向量
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Bitangent));
     glBindVertexArray(0);
 }
 
@@ -78,9 +79,9 @@ void Mesh::draw(QOpenGLShaderProgram *program)
             number = QString::number(diffuseNr++);
         }else if (type == "texture_specular") {
             number = QString::number(specularNr++); // transfer unsigned int to stream
-        }else if (type == "texture_normal")                                                                                                     {
+        }else if (type == "texture_normal") {
             number = QString::number(normalNr++);   // transfer unsigned int to stream
-        }else if (type == "texture_height")                                                                                                     {
+        }else if (type == "texture_height") {
             number = QString::number(heightNr++);   // transfer unsigned int to stream
         }
         qDebug() << QString(type + number).toLocal8Bit().constData();
