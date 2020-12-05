@@ -65,11 +65,11 @@ void LoadEngineWidget::initializeGL()
     }
 
 
-    QDir temDir("./objects/backpack.obj");
+    QDir temDir("./objects/cyborg.obj");
     QString filePath = temDir.absolutePath();
 
     //模型网上自己找个，注意格式要符合assimp库支持的。
-    // pmodel = new Model(":/backpack.obj");
+    // pmodel = new Model(":/cyborg.obj");
 
     pmodel = new Model(filePath);
 

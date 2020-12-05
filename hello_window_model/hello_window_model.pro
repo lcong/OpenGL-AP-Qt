@@ -45,14 +45,10 @@ RESOURCES += \
     objects/objects.qrc
 
 
-win32: LIBS += -L$$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/lib \
-    -LD:/OpenGL-Qt-WS/Qt5.15.2/thirdparty/assimp/lib \
+win32: LIBS += -L$$PWD/../Qt5.15.2/thirdparty/assimp/lib \
     -llibassimp.dll
 
-INCLUDEPATH += $$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/include \
-    D:/OpenGL-Qt-WS/Qt5.15.2/thirdparty/assimp/include
+INCLUDEPATH += $$PWD/../Qt5.15.2/thirdparty/assimp/include
 
-DEPENDPATH += $$PWD/../../../Qt/5.15.2/mingw81_64/thirdparty/assimp/include \
-    D:/OpenGL-Qt-WS/Qt5.15.2/thirdparty/assimp/include
+DEPENDPATH += $$PWD/../Qt5.15.2/thirdparty/assimp/include
 
-D:/OpenGL-Qt-WS/Qt5.15.2/thirdparty/assimp

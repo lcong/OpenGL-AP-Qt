@@ -28,9 +28,6 @@ public:
     bool initFromScene(const aiScene *pscene, const QString& path);
     Mesh *initMesh(const aiScene *pscene, const aiMesh *pmesh);
 
-    /////////////////////////////////////
-
-
     //QSharedPointer<QOpenGLTexture> textureFile();
     std::vector<Texture> loadMaterialTextures(aiMaterial *material, aiTextureType type, const QString& typeName);
 
