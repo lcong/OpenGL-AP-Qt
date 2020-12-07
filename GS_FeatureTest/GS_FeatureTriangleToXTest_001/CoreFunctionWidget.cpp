@@ -1,10 +1,11 @@
-﻿#include <QDebug>
+﻿#include "CoreFunctionWidget.h"
+#include <QDebug>
 #include <QTimer>
 #include <QKeyEvent>
 #include <QDateTime>
-#include "CoreFunctionWidget.h"
 
-
+// lighting
+static QVector3D lightPos(1.2f, 1.0f, 2.0f);
 
 CoreFunctionWidget::CoreFunctionWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
@@ -26,37 +27,31 @@ void CoreFunctionWidget::initializeGL()
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
-    // Triangle
-
     float vertices[] = {
-        // positions          // colors
-        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f,	0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+        // positions    //color
+        -0.5f,	0.5f, 1.0f, 0.0f, 0.0f, // top-left
+        0.5f,	0.5f, 0.0f, 1.0f, 0.0f, // top-right
+        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, // bottom-right
+        -0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // bottom-left
     };
-    glEnable(GL_DEPTH_TEST);
 
+    glEnable(GL_DEPTH_TEST);
 
     // first, configure the VAO (and VBO)
     glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
     glBindVertexArray(VAO);
+
+    glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
-//  glPatchParameteri(GL_PATCH_VERTICES, 3); //注意！！注释掉这句，才可以让GS生效；
-    glDrawArrays(GL_PATCHES, 0, 3);
 }
 
 
@@ -74,43 +69,27 @@ void CoreFunctionWidget::paintGL()
 
     glBindVertexArray(VAO);
     mShader.bind();
-
-    glDrawArrays(GL_PATCHES, 0, 3);
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glDrawArrays(GL_TRIANGLES, 0, 4);
+    glPolygonMode(GL_FRONT, GL_LINE);
 }
 
 
 bool CoreFunctionWidget::createShader()
 {
-    bool success = mShader.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/2.1.hellotriangle.vert");
+    bool success = mShader.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/GS_TriangleToTriangleTest_001.vs");
 
     if (!success) {
         qDebug() << "shaderProgram addShaderFromSourceFile failed!" << mShader.log();
         return (success);
     }
 
-
-    success = mShader.addShaderFromSourceFile(QOpenGLShader::TessellationControl, ":/2.1.hellotriangle.tcs");
+    success = mShader.addShaderFromSourceFile(QOpenGLShader::Geometry, ":/GS_TriangleToTriangleTest_001.gs");
     if (!success) {
         qDebug() << "shaderProgram addShaderFromSourceFile failed!" << mShader.log();
         return (success);
     }
 
-    success = mShader.addShaderFromSourceFile(QOpenGLShader::TessellationEvaluation, ":/2.1.hellotriangle.tes");
-    if (!success) {
-        qDebug() << "shaderProgram addShaderFromSourceFile failed!" << mShader.log();
-        return (success);
-    }
-
-
-    success = mShader.addShaderFromSourceFile(QOpenGLShader::Geometry, ":/2.1.hellotriangle.gs");
-    if (!success) {
-        qDebug() << "shaderProgram addShaderFromSourceFile failed!" << mShader.log();
-        return (success);
-    }
-
-    success = mShader.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/2.1.hellotriangle.frag");
+    success = mShader.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/GS_TriangleToTriangleTest_001.fs");
     if (!success) {
         qDebug() << "shaderProgram addShaderFromSourceFile failed!" << mShader.log();
         return (success);
@@ -120,6 +99,7 @@ bool CoreFunctionWidget::createShader()
     if (!success) {
         qDebug() << "shaderProgram link failed!" << mShader.log();
     }
+
 
     return (success);
 }

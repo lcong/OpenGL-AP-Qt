@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>9.1.geometry_shader.fs</file>
+        <file>9.1.geometry_shader.gs</file>
+        <file>9.1.geometry_shader.vs</file>
+        
+		<file>GS_PointsToLineTest_001.vs</file>
+        <file>GS_PointsToLineTest_001.gs</file>
+        <file>GS_PointsToLineTest_001.fs</file>
+        <file>GS_PointsToTriangleTest_001.vs</file>
+        <file>GS_PointsToTriangleTest_001.gs</file>
+        <file>GS_PointsToTriangleTest_001.fs</file>
+		
+		
+		<file>GS_TriangleToLineTest_001.vs</file>
+        <file>GS_TriangleToLineTest_001.gs</file>
+        <file>GS_TriangleToLineTest_001.fs</file>
+        <file>GS_TriangleToTriangleTest_001.vs</file>
+        <file>GS_TriangleToTriangleTest_001.gs</file>
+        <file>GS_TriangleToTriangleTest_001.fs</file>
+		
+    </qresource>
+</RCC>
