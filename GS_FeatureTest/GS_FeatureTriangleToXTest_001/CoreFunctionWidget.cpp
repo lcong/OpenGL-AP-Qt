@@ -71,6 +71,9 @@ void CoreFunctionWidget::paintGL()
     mShader.bind();
     glDrawArrays(GL_TRIANGLES, 0, 4);
     glPolygonMode(GL_FRONT, GL_LINE);
+
+//  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 

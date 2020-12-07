@@ -12,25 +12,25 @@ out vec3 fColor;
 void main() {
 
 
-fColor = gs_in[0].color; // gs_in[0] since there's only one input vertex
-gl_Position = gl_in[0].gl_Position + vec4(-0.2, 0.0, 0.0, 0.0); // 1:bottom-left
+fColor = gs_in[0].color;
+gl_Position = gl_in[0].gl_Position + vec4(-0.2, +0.2, 0.0, 0.0);
 EmitVertex();
 
-gl_Position = gl_in[0].gl_Position + vec4(+0.2, -0.2, 0.0, 0.0); // 1:bottom-left
+gl_Position = gl_in[0].gl_Position + vec4(+0.2, -0.2, 0.0, 0.0);
 EmitVertex();
 
-fColor = gs_in[1].color; // gs_in[0] since there's only one input vertex
-gl_Position = gl_in[1].gl_Position + vec4( -0.2, -0.2, 0.0, 0.0); // 2:bottom-right
+fColor = gs_in[1].color;
+gl_Position = gl_in[1].gl_Position + vec4( 0.0, -0.2, +0.2, 0.0);
 EmitVertex();
 
-gl_Position = gl_in[1].gl_Position + vec4( +0.2, 0.0, -0.2, 0.0); // 2:bottom-right
+gl_Position = gl_in[1].gl_Position + vec4( 0.0, +0.2, -0.2, 0.0);
 EmitVertex();
 
-fColor = gs_in[2].color; // gs_in[0] since there's only one input vertex
-gl_Position = gl_in[2].gl_Position + vec4(0.0,  0.0, -0.2, 0.0); // 3:top-left
+fColor = gs_in[2].color;
+gl_Position = gl_in[2].gl_Position + vec4(+0.2,  0.0, -0.2, 0.0);
 EmitVertex();
 
-gl_Position = gl_in[2].gl_Position + vec4(-0.2,  0.0, 0.0, 0.0); // 3:top-left
+gl_Position = gl_in[2].gl_Position + vec4(-0.2,  0.0, +0.2, 0.0);
 EmitVertex();
 
 fColor = vec3(1.0, 1.0, 1.0); //叠加白光
