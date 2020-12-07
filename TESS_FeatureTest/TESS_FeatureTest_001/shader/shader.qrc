@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>TESS_FeatureTest_001.vert</file>
+        <file>TESS_FeatureTest_001.tcs</file>
+        <file>TESS_FeatureTest_001.tes</file>
+        <file>TESS_FeatureTest_001.fs</file>
+        <file>TESS_FeatureTest_001.gs</file>
+    </qresource>
+</RCC>
