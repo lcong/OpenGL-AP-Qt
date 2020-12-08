@@ -17,6 +17,10 @@ protected:
 
 private:
     GLuint shaderProgram;
+
+    GLuint vbo, vao, tbo;
+    GLint vertexShader;
+    GLint geoShader;
 };
 
 #endif // WIDGET_H

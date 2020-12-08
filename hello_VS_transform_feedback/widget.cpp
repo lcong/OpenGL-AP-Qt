@@ -1,6 +1,5 @@
 #include "widget.h"
 
-GLuint VBO, VAO;
 
 const char *vertexShaderSource =
     "#version 420 core\n"
@@ -24,6 +23,13 @@ Triangle::Triangle()
 
 Triangle::~Triangle()
 {
+    glDeleteProgram(shaderProgram);
+    glDeleteShader(vertexShader);
+
+    glDeleteBuffers(1, &tbo);
+    glDeleteBuffers(1, &vbo);
+
+    glDeleteVertexArrays(1, &vao);
 }
 
 
@@ -32,7 +38,7 @@ void Triangle::initializeGL()
     //着色器部分
     this->initializeOpenGLFunctions();
 
-    int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
 
@@ -66,14 +72,13 @@ void Triangle::initializeGL()
     glUseProgram(shaderProgram);
 
     // Create VAO
-    GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
     // Create input VBO and vertex format
     GLfloat data[] = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
 
-    GLuint vbo;
+
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
@@ -83,7 +88,6 @@ void Triangle::initializeGL()
     glVertexAttribPointer(inputAttrib, 1, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Create transform feedback buffer
-    GLuint tbo;
     glGenBuffers(1, &tbo);
     glBindBuffer(GL_ARRAY_BUFFER, tbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(data), nullptr, GL_STATIC_READ);
@@ -107,15 +111,13 @@ void Triangle::initializeGL()
     GLfloat feedback[5];
     glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
 
-    printf("%f %f %f %f %f\n", feedback[0], feedback[1], feedback[2], feedback[3], feedback[4]);
+    for (int i = 0; i < sizeof(feedback)/sizeof(feedback[0]); i++)
+    {
+        qDebug("feedback[%d]：%f", i, feedback[i]);
+    }
 
-    glDeleteProgram(shaderProgram);
-    glDeleteShader(vertexShader);
 
-    glDeleteBuffers(1, &tbo);
-    glDeleteBuffers(1, &vbo);
-
-    glDeleteVertexArrays(1, &vao);
+//    printf("%f %f %f %f %f\n", feedback[0], feedback[1], feedback[2], feedback[3], feedback[4]);
 }
 
 
@@ -131,7 +133,8 @@ void Triangle::paintGL()
     glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(shaderProgram);
-    glBindVertexArray(VAO);
+    glBindVertexArray(vao);
+
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glUseProgram(0);
 }
