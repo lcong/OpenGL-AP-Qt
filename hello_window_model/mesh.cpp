@@ -50,7 +50,7 @@ void Mesh::setupMesh(QOpenGLShaderProgram *program)
     // u向量
     glEnableVertexAttribArray(3);
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Tangent));
-//     v向量
+    // v向量
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, Bitangent));
     glBindVertexArray(0);
