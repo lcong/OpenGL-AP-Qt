@@ -7,6 +7,7 @@
 
 class Triangle : public QOpenGLWidget, protected QOpenGLFunctions_4_5_Core
 {
+    Q_OBJECT
 public:
     Triangle();
     ~Triangle();
@@ -17,9 +18,9 @@ protected:
 
 private:
     GLuint shaderProgram;
-    GLuint vbo, vao, tbo;
-    GLint vertexShader;
-    GLint geoShader;
+    GLuint VBO, VAO, TBO;
+    GLuint vertexShader;
+    GLuint geoShader;
 };
 
 #endif // WIDGET_H

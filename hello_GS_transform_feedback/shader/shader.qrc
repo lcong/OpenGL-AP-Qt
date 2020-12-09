@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>hello_GS_transform_feedback.gs</file>
+        <file>hello_GS_transform_feedback.vs</file>
+    </qresource>
+</RCC>
