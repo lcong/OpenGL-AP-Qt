@@ -54,6 +54,7 @@ void Triangle::initializeGL()
     GLint success;
     GLchar infoLog[512];
 
+//    compile vertex shader
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSrc, NULL);
     glCompileShader(vertexShader);
@@ -63,6 +64,7 @@ void Triangle::initializeGL()
         qDebug() << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog <<  Qt::endl;
     }
 
+//    compile geometry shader
     geoShader = glCreateShader(GL_GEOMETRY_SHADER);
     glShaderSource(geoShader, 1, &geoShaderSrc, NULL);
     glCompileShader(geoShader);
@@ -89,7 +91,7 @@ void Triangle::initializeGL()
     const GLchar *feedbackVaryings[] = { "outValue" };
     glTransformFeedbackVaryings(shaderProgram, 1, feedbackVaryings, GL_INTERLEAVED_ATTRIBS);
 
-
+//  待缓冲区的输出属性配置好，这才link shaderProgram
     glLinkProgram(shaderProgram);
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
@@ -119,7 +121,6 @@ void Triangle::initializeGL()
     /*
      * 我们现在传递了一个nullptr，以创建一个足够大的缓冲区，以便容纳所有生成的浮点数，但是没有指定任何初始数据。
      * 设置一个适当的使用类型GL_STATIC_READ，它表示我们打算将OpenGL写入到这个缓冲区中，我们的应用程序可以从中读取。
-     * @brief glGenBuffers
      */
 
     // Create transform feedback buffer
@@ -127,22 +128,31 @@ void Triangle::initializeGL()
     glBindBuffer(GL_ARRAY_BUFFER, TBO);
     glBufferData(GL_ARRAY_BUFFER, 3*sizeof(verticesData), nullptr, GL_STATIC_READ);
 
+    // Create query object to collect info
+    GLuint query;
+    glGenQueries(1, &query);
 
     /*
      * 现在我们已经为渲染计算过程做了所有的准备。由于我们不打算画任何东西，光栅化器应该被禁用:
-     *
-     *
      */
     glEnable(GL_RASTERIZER_DISCARD);
 
 
     /*
      * 为了实际绑定我们在上面创建的缓冲区作为转换反馈缓冲区，我们必须使用一个名为glBindBufferBase的新函数。
-     *
      */
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, TBO);
 
-    // 在进行绘制调用之前，您必须设置transform_feedback模式, 注意使用GL_TRIAGNLES ,与仅有vertex shader(为GL_POINTS)的设置不一样。
+    glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, query);
+
+
+    /*
+     * 在进行绘制调用之前，需要设置transform_feedback模式, 注意使用GL_TRIAGNLES ,与仅有vertex shader(为GL_POINTS)的设置不一样。
+     *
+     * 当使用几何着色器时，指定为glBeginTransformFeedback的类型必须与几何着色器的输出类型匹配,这里使用的是GL_TRIANGLES:
+     */
+    //如果这里使用GL_TRIANGLES_STRIP,得不到期待结果，数值显示为全0uery);
+
     // Perform feedback transform
     glBeginTransformFeedback(GL_TRIANGLES);
 
@@ -151,19 +161,26 @@ void Triangle::initializeGL()
     glEndTransformFeedback();
 
 
+    glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
+
     //重新开启光栅化
     glDisable(GL_RASTERIZER_DISCARD);
-
     glFlush();
 
-    // Fetch and print results, 结果的points个数为3倍，也就是3*5=15
+    // Fetch query result
+    GLuint primitives;
+    glGetQueryObjectuiv(query, GL_QUERY_RESULT, &primitives);
+
+
+    // Fetch and output print results, 结果的points个数为3倍，也就是3*5=15
     GLfloat feedback[15];
     glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
+
+    qDebug("%d primitives written!", primitives);
 
     for (int i = 0; i < 15; i++)
     {
         qDebug("feedback[%d]：%f", i, feedback[i]);
-        //printf("%f\n", feedback[i]);
     }
 }
 
