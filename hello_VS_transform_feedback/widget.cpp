@@ -47,7 +47,7 @@ void Triangle::initializeGL()
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        qDebug() << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
+        qDebug() << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << Qt::endl;
     }
 
     shaderProgram = glCreateProgram();
@@ -66,7 +66,7 @@ void Triangle::initializeGL()
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        qDebug() << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << endl;
+        qDebug() << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << Qt::endl;
     }
 
     glUseProgram(shaderProgram);
@@ -111,13 +111,10 @@ void Triangle::initializeGL()
     GLfloat feedback[5];
     glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
 
-    for (int i = 0; i < sizeof(feedback)/sizeof(feedback[0]); i++)
+    for (uint32_t i = 0; i < (uint32_t)sizeof(feedback)/sizeof(feedback[0]); i++)
     {
         qDebug("feedback[%d]：%f", i, feedback[i]);
     }
-
-
-//    printf("%f %f %f %f %f\n", feedback[0], feedback[1], feedback[2], feedback[3], feedback[4]);
 }
 
 
