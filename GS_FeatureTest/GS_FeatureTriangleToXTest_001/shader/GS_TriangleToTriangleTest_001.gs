@@ -23,7 +23,7 @@ EmitVertex();
 
 gl_Position = gl_in[0].gl_Position + vec4(-0.2, 0.0, 0.0, 0.0);
 EmitVertex();
-
+EndPrimitive();
 
 fColor = gs_in[1].color;
 gl_Position = gl_in[1].gl_Position + vec4(0.0, +0.2, 0.0, 0.0);
@@ -37,7 +37,7 @@ EmitVertex();
 
 gl_Position = gl_in[1].gl_Position + vec4(-0.2, 0.0, 0.0, 0.0);
 EmitVertex();
-
+EndPrimitive();
 fColor = gs_in[2].color;
 gl_Position = gl_in[2].gl_Position + vec4(0.0, +0.2, 0.0, 0.0);
 EmitVertex();
