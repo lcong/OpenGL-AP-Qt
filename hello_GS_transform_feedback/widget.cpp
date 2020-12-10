@@ -2,7 +2,7 @@
 
 // Vertex shader
 const GLchar *vertexShaderSrc = R"glsl(
-    #version 150 core
+    #version 420 core
     in float inValue;
     out float geoValue;
     void main()
@@ -14,10 +14,11 @@ const GLchar *vertexShaderSrc = R"glsl(
 
 // Geometry shader
 const GLchar *geoShaderSrc = R"glsl(
-    #version 150 core
+    #version 420 core
     layout(points) in;
     layout(triangle_strip, max_vertices = 3) out;
     in float[] geoValue;
+
     out float outValue;
     void main()
     {
@@ -133,7 +134,8 @@ void Triangle::initializeGL()
     glGenQueries(1, &query);
 
     /*
-     * 现在我们已经为渲染计算过程做了所有的准备。由于我们不打算画任何东西，光栅化器应该被禁用:
+     * 现在我们已经为渲染计算过程做了所有的准备;
+     * 由于我们不打算画任何东西，光栅化器应该被禁用;
      */
     glEnable(GL_RASTERIZER_DISCARD);
 
@@ -151,8 +153,8 @@ void Triangle::initializeGL()
      *
      * 当使用几何着色器时，指定为glBeginTransformFeedback的类型必须与几何着色器的输出类型匹配,这里使用的是GL_TRIANGLES:
      */
-    //如果这里使用GL_TRIANGLES_STRIP,得不到期待结果，数值显示为全0uery);
 
+    //如果这里使用GL_TRIANGLES_STRIP,得不到期待结果，数值显示为全0;
     // Perform feedback transform
     glBeginTransformFeedback(GL_TRIANGLES);
 
