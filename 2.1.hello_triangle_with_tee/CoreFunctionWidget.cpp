@@ -54,9 +54,6 @@ void CoreFunctionWidget::initializeGL()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
-//  glPatchParameteri(GL_PATCH_VERTICES, 3); //注意！！注释掉这句，才可以让GS生效；
-    glDrawArrays(GL_PATCHES, 0, 3);
 }
 
 
@@ -75,6 +72,7 @@ void CoreFunctionWidget::paintGL()
     glBindVertexArray(VAO);
     mShader.bind();
 
+    glPatchParameteri(GL_PATCH_VERTICES, 3);
     glDrawArrays(GL_PATCHES, 0, 3);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
