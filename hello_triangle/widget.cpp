@@ -2,9 +2,10 @@
 GLuint VBO, VAO;
 const char *vertexShaderSource =
     "#version 330 core\n"
-    "layout(location = 0) in vec3 aPos;\n"
+    "layout(location = 0) in vec4 aTempPos;\n"
+    " vec4 aPos=aTempPos;\n"
     "void main(){\n"
-    "  gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "  gl_Position = vec4(aPos.x, aPos.y, aPos.z, aPos.w);\n"
     "}\n\0";
 const char *fragmentShaderSource =
     "#version 330 core\n"
@@ -12,6 +13,8 @@ const char *fragmentShaderSource =
     "void main(){\n"
     "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
     "}\n\0";
+
+
 Triangle::Triangle()
 {
 }
@@ -36,7 +39,7 @@ void Triangle::initializeGL()
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        qDebug() << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
+        qDebug() << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog <<  Qt::endl;
     }
 
     int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -47,7 +50,7 @@ void Triangle::initializeGL()
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        qDebug() << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
+        qDebug() << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog <<  Qt::endl;
     }
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
@@ -57,17 +60,25 @@ void Triangle::initializeGL()
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        qDebug() << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << endl;
+        qDebug() << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog <<  Qt::endl;
     }
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
     //VAO，VBO数据部分
+//    GLfloat vertices[] = {
+//        -0.5f, -0.5f, 0.0f,     // left
+//        0.5f,  -0.5f, 0.0f,     // right
+//        0.0f,	0.5f, 0.0f      // top
+//    };
+
+    //VAO，VBO数据部分
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,     // left
-        0.5f,  -0.5f, 0.0f,     // right
-        0.0f,	0.5f, 0.0f      // top
+        0.2f, 0.1f, 0.0f, 1.0f, // left
+        0.3f, 0.8f, 0.0f, 1.0f, // right
+        0.9f, 0.4f, 0.0f, 1.0f, // top
     };
+
 
 
     glGenVertexArrays(1, &VAO);//两个参数，第一个为需要创建的缓存数量。第二个为用于存储单一ID或多个ID的GLuint变量或数组的地址
@@ -76,11 +87,19 @@ void Triangle::initializeGL()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void *)0);
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glUseProgram(shaderProgram);
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glUseProgram(0);
 }
 
 
